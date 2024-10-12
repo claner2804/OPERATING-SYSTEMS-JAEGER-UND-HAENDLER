@@ -9,6 +9,7 @@
 // Definiere Konstanten für die Kapazität der Brieftasche, die Zeit zur Münzauffüllung, die Simulationszeit und die Anzahl der Jäger
 #define WALLET_CAPACITY 10
 #define COIN_REPLENISH_TIME 2 // Sekunden
+#define SIMULATION_TIME 300   // 5 Minuten in Sekunden
 #define HUNTERS 5
 
 // Mutex-Sperre zur Synchronisation des Zugriffs auf die Brieftasche
@@ -16,9 +17,10 @@ pthread_mutex_t wallet_lock;
 int coins = WALLET_CAPACITY; // Aktuelle Anzahl der Münzen in der Brieftasche
 bool running = true; // Flag, das angibt, ob die Simulation läuft
 
-void signal_handler(int signum) {
-    printf("\n[Signal Handler] Signal %d empfangen. Beende die Simulation...\n", signum);
-    running = false;
+// Signal-Handler Funktion für SIGINT
+void handle_sigint(int sig) {
+    printf("\n[Signal] SIGINT empfangen, beende die Simulation...\n");
+    running = false; // Setze das Flag auf false, um alle Threads zu beenden
 }
 
 // Thread-Funktion zum Auffüllen der Münzen in der Brieftasche
@@ -61,13 +63,13 @@ void* hunter_thread(void* arg) {
 }
 
 int main() {
-    // Signal-Handler für SIGINT (z.B. durch Strg+C) registrieren
-    signal(SIGINT, signal_handler);
-
     srand(time(NULL)); // Initialisiere den Zufallszahlengenerator mit der aktuellen Zeit
     pthread_t hunters[HUNTERS]; // Array der Jäger-Threads
     pthread_t replenisher; // Thread zum Auffüllen der Münzen
     pthread_mutex_init(&wallet_lock, NULL); // Initialisiere die Mutex-Sperre
+
+    // Registriere den Signal-Handler für SIGINT
+    signal(SIGINT, handle_sigint);
 
     printf("[Main] Starte den Auffüll-Thread und die Jäger-Threads.\n");
 
@@ -86,10 +88,9 @@ int main() {
         printf("[Main] Jäger %d Thread gestartet.\n", i);
     }
 
-    // Warten, bis ein Signal (z.B. SIGINT) empfangen wird, um die Simulation zu beenden
-    while (running) {
-        sleep(1);
-    }
+    // Simulationszeit oder bis SIGINT empfangen wird
+    sleep(SIMULATION_TIME); // Führe die Simulation für die definierte Dauer (5 Minuten) aus
+    running = false; // Beende die Simulation
 
     printf("[Main] Beende die Simulation und warte auf alle Threads.\n");
 
