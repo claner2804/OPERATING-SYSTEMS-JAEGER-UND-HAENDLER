@@ -1,4 +1,4 @@
-# Install script for directory: /Users/admin/Library/CloudStorage/OneDrive-mci4me.at/Digital Business & Software Engineering/Semester 3/Betriebssysteme/UEZ6/Händler und Jäger Code
+# Install script for directory: /Users/admin/Library/CloudStorage/OneDrive-mci4me.at/Digital Business & Software Engineering/Semester 3/Betriebssysteme/Altklausuren praxis/Händler und Jäger Code
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/Users/admin/Library/CloudStorage/OneDrive-mci4me.at/Digital Business & Software Engineering/Semester 3/Betriebssysteme/UEZ6/Händler und Jäger Code/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/Users/admin/Library/CloudStorage/OneDrive-mci4me.at/Digital Business & Software Engineering/Semester 3/Betriebssysteme/Altklausuren praxis/Händler und Jäger Code/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
